@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando com JavaScript e DOM</title>
+    <script src="exemplos.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            width: 100%; 
+        }
+        .container input,
+        .container select {
+            width: calc(100% - 20px); 
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .container button {
+            background-color: rgba(100, 100, 233, 0.986);
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .container-button {
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .container-button button {
+            background-color: rgba(100, 100, 233, 0.986);
+            color: #fff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ordenando Valores</h1>
+    
+    
+    <div class="container">
+        <label for="valor">Valor:</label>
+        <input type="number" id="valor">
+        <button onclick="add()">Adicionar</button>
+    </div>
+    <hr>
+    
+    <div class="container">
+        <select id="algoritmo">
+            <option value="quick" selected>Quick Sort</option>
+            <option value="bubble">Bubble Sort</option>
+            <option value="selection">Selection Sort</option>
+        </select>
+    </div>
+    <hr>
+    <div class="container-button">
+        <button onclick="ordenar()">Ordenar</button>
+        <button onclick="misturar()">Misturar</button>
+    </div>
+    <hr>
+
+    <ul id="valores"></ul>
+
+    <script>
+        function add() {
+            var valorInput = document.getElementById("valor").value;
+            var listaValores = document.getElementById("valores");
+            var node = document.createElement("li");
+            var textNode = document.createTextNode(valorInput);
+            node.appendChild(textNode);
+            listaValores.appendChild(node);
+        }
+        
+        function ordenar() {
+            var listaValores = document.getElementById("valores");
+            var algoritmoSelecionado = document.getElementById("algoritmo").value;
+            var valores = Array.from(listaValores.children).map(item => parseInt(item.innerHTML));
+            switch (algoritmoSelecionado) {
+                case "bubble":
+                    bubble_sort(valores);
+                    break;
+                case "selection":
+                    selection_sort(valores);
+                    break;
+                case "quick":
+                    quick_sort(valores);
+                    break;
+                default:
+                    break;
+            }
+            listaValores.innerHTML = valores.map(item => `<li>${item}</li>`).join('');
+        }
+
+        function misturar() {
+            var listaValores = document.getElementById("valores");
+            var valores = Array.from(listaValores.children).map(item => parseInt(item.innerHTML)).filter(value => !isNaN(value));
+            shuffle(valores, 100);
+            listaValores.innerHTML = valores.map(item => `<li>${item}</li>`).join('');
+        }
+    </script>
+</body>
+</html>
